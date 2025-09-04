@@ -3,11 +3,9 @@
   "info": {
     "title": "Jordan Locations API",
     "version": "1.1.0",
-    "description": "Read-only API for governorates, districts, and areas in Jordan with getById endpoints"
+    "description": "Read-only API for governorates, districts, and areas in Jordan"
   },
-  "servers": [
-    { "url": "http://localhost:3000/api/v1" }
-  ],
+  "servers": [],
   "tags": [
     { "name": "Governorates", "description": "Jordan's governorates" },
     { "name": "Districts", "description": "Districts under each governorate" },
@@ -58,107 +56,6 @@
             }
           },
           "404": { "description": "Governorate not found" }
-        }
-      }
-    },
-    "/districts": {
-      "get": {
-        "summary": "Get all districts or by governorate_id",
-        "tags": ["Districts"],
-        "parameters": [
-          { "in": "query", "name": "governorate_id", "schema": { "type": "integer" }, "required": false }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of districts",
-            "content": {
-              "application/json": {
-                "examples": {
-                  "districts": {
-                    "value": [
-                      { "district_id": 1, "governorate_id": 1, "name_ar": "لواء قصبة عمان", "name_en": "Amman District" }
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/districts/id/{id}": {
-      "get": {
-        "summary": "Get district by ID",
-        "tags": ["Districts"],
-        "parameters": [
-          { "in": "path", "name": "id", "schema": { "type": "integer" }, "required": true }
-        ],
-        "responses": {
-          "200": {
-            "description": "District found",
-            "content": {
-              "application/json": {
-                "examples": {
-                  "district": {
-                    "value": { "district_id": 1, "governorate_id": 1, "name_ar": "لواء قصبة عمان", "name_en": "Amman District" }
-                  }
-                }
-              }
-            }
-          },
-          "404": { "description": "District not found" }
-        }
-      }
-    },
-    "/areas": {
-      "get": {
-        "summary": "Get areas by district_id and governorate_id",
-        "tags": ["Areas"],
-        "parameters": [
-          { "in": "query", "name": "district_id", "schema": { "type": "integer" }, "required": true },
-          { "in": "query", "name": "governorate_id", "schema": { "type": "integer" }, "required": true },
-          { "in": "query", "name": "limit", "schema": { "type": "integer" }, "required": false },
-          { "in": "query", "name": "offset", "schema": { "type": "integer" }, "required": false }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of areas",
-            "content": {
-              "application/json": {
-                "examples": {
-                  "areas": {
-                    "value": [
-                      { "area_id": 1, "district_id": 1, "governorate_id": 1, "name_ar": "العبدلي", "name_en": "Abdali" }
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/areas/id/{id}": {
-      "get": {
-        "summary": "Get area by ID",
-        "tags": ["Areas"],
-        "parameters": [
-          { "in": "path", "name": "id", "schema": { "type": "integer" }, "required": true }
-        ],
-        "responses": {
-          "200": {
-            "description": "Area found",
-            "content": {
-              "application/json": {
-                "examples": {
-                  "area": {
-                    "value": { "area_id": 1, "district_id": 1, "governorate_id": 1, "name_ar": "العبدلي", "name_en": "Abdali" }
-                  }
-                }
-              }
-            }
-          },
-          "404": { "description": "Area not found" }
         }
       }
     }
