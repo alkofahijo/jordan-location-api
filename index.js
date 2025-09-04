@@ -13,7 +13,10 @@ const errorHandler = require('./middleware/errorHandler');
 const { swaggerUi, specs } = require('./swagger');
 
 const app = express();
+const dns = require('dns');
 
+// Node 18+ only: force IPv4 first
+dns.setDefaultResultOrder('ipv4first');
 // --------------------
 // Middleware
 // --------------------
