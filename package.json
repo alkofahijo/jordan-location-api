@@ -1,0 +1,22 @@
+{
+  "name": "jordan-location-api",
+  "version": "1.0.0",
+  "description": "Read-only API for Jordan governorates, districts, and areas",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.0.0",
+    "morgan": "^1.10.0",
+    "pg": "^8.11.1",
+    "swagger-ui-express": "^4.7.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
