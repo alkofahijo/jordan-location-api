@@ -54,3 +54,69 @@ router.get('/id/:id', async (req, res, next) => {
 });
 
 module.exports = router;
+
+
+/**
+ * @swagger
+ * tags:
+ *   name: Districts
+ *   description: Jordan districts
+ */
+
+/**
+ * @swagger
+ * /districts:
+ *   get:
+ *     summary: Get all districts (optional: filter by governorate_id)
+ *     tags: [Districts]
+ *     parameters:
+ *       - in: query
+ *         name: governorate_id
+ *         schema:
+ *           type: integer
+ *         description: Filter districts by governorate_id
+ *     responses:
+ *       200:
+ *         description: List of districts
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   district_id:
+ *                     type: integer
+ *                     example: 10
+ *                   governorate_id:
+ *                     type: integer
+ *                     example: 1
+ *                   name_ar:
+ *                     type: string
+ *                     example: "لواء قصبة عمان"
+ *                   name_en:
+ *                     type: string
+ *                     example: "Amman District"
+ */
+
+/**
+ * @swagger
+ * /districts/id/{id}:
+ *   get:
+ *     summary: Get a district by ID
+ *     tags: [Districts]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 10
+ *         description: District ID
+ *     responses:
+ *       200:
+ *         description: District found
+ *       404:
+ *         description: District not found
+ */
+
