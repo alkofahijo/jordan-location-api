@@ -14,9 +14,7 @@ const { swaggerUi, specs } = require('./swagger');
 
 const app = express();
 
-// --------------------
-// Force IPv4 for Supabase (Node 18+)
-// --------------------
+// Force IPv4 for Supabase (fix ENETUNREACH)
 dns.setDefaultResultOrder('ipv4first');
 
 // --------------------
