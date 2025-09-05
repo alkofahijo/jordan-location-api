@@ -62,3 +62,90 @@ router.get('/id/:id', async (req, res, next) => {
 });
 
 module.exports = router;
+
+
+/**
+ * @swagger
+ * tags:
+ *   name: Areas
+ *   description: Areas within districts
+ */
+
+/**
+ * @swagger
+ * /areas:
+ *   get:
+ *     summary: Get all areas filtered by district_id and governorate_id
+ *     tags: [Areas]
+ *     parameters:
+ *       - in: query
+ *         name: district_id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 10
+ *         description: District ID
+ *       - in: query
+ *         name: governorate_id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *         description: Governorate ID
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           example: 100
+ *         description: Maximum number of results
+ *       - in: query
+ *         name: offset
+ *         schema:
+ *           type: integer
+ *           example: 0
+ *         description: Number of items to skip
+ *     responses:
+ *       200:
+ *         description: List of areas
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   area_id:
+ *                     type: integer
+ *                   district_id:
+ *                     type: integer
+ *                   governorate_id:
+ *                     type: integer
+ *                   name_ar:
+ *                     type: string
+ *                   name_en:
+ *                     type: string
+ *       400:
+ *         description: district_id and governorate_id are required
+ */
+
+/**
+ * @swagger
+ * /areas/id/{id}:
+ *   get:
+ *     summary: Get an area by ID
+ *     tags: [Areas]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 100
+ *         description: Area ID
+ *     responses:
+ *       200:
+ *         description: Area found
+ *       404:
+ *         description: Area not found
+ */
+
