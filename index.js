@@ -3,21 +3,22 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
-const dns = require('dns');
 require('dotenv').config();
 
 const pool = require('./db'); // Supabase pool
 const governoratesRoutes = require('./routes/governorates');
 const districtsRoutes = require('./routes/districts');
 const areasRoutes = require('./routes/areas');
-const { swaggerUi, specs } = require('./swagger');
+
+// Minimal Swagger integration
+let swaggerUi, specs;
+try {
+  ({ swaggerUi, specs } = require('./swagger'));
+} catch (e) {
+  console.warn('Swagger not loaded:', e.message);
+}
 
 const app = express();
-
-// --------------------
-// Force IPv4 for Supabase (Node 18+)
-// --------------------
-dns.setDefaultResultOrder('ipv4first');
 
 // --------------------
 // Middleware
@@ -35,9 +36,11 @@ app.use('/api/v1/districts', districtsRoutes);
 app.use('/api/v1/areas', areasRoutes);
 
 // --------------------
-// Swagger UI
+// Swagger UI (only if loaded successfully)
 // --------------------
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+if (swaggerUi && specs) {
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+}
 
 // --------------------
 // Default route
