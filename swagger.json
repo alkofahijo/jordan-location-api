@@ -3,30 +3,22 @@
   "info": {
     "title": "Jordan Locations API",
     "version": "1.0.0",
-    "description": "API for all governorates, districts, and areas in Jordan.",
+    "description": "API for governorates, districts, and areas in Jordan.",
     "contact": {
-      "name": "FutureTech Volunteer Team",
+      "name": "FutureTech",
       "url": "https://jordan-location-api.onrender.com"
     }
   },
   "servers": [
     {
-      "url": "https://jordan-location-api.onrender.com/api/v1"
+      "url": "https://jordan-location-api.onrender.com/api/v1",
+      "description": "Production server"
     }
   ],
   "tags": [
-    {
-      "name": "Governorates",
-      "description": "API to manage Jordan governorates"
-    },
-    {
-      "name": "Districts",
-      "description": "API to manage Jordan districts"
-    },
-    {
-      "name": "Areas",
-      "description": "API to manage areas in districts"
-    }
+    { "name": "Governorates", "description": "Jordan governorates" },
+    { "name": "Districts", "description": "Jordan districts" },
+    { "name": "Areas", "description": "Areas within districts" }
   ],
   "paths": {
     "/governorates": {
@@ -58,31 +50,20 @@
     "/governorates/id/{id}": {
       "get": {
         "tags": ["Governorates"],
-        "summary": "Get governorate by ID",
+        "summary": "Get a governorate by ID",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "schema": { "type": "integer" },
+            "schema": { "type": "integer", "example": 1 },
             "description": "Governorate ID"
           }
         ],
         "responses": {
           "200": {
-            "description": "Governorate object",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "governorate_id": { "type": "integer", "example": 1 },
-                    "name_ar": { "type": "string", "example": "عمان" },
-                    "name_en": { "type": "string", "example": "Amman" }
-                  }
-                }
-              }
-            }
+            "description": "Governorate found",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Governorate" } } }
           },
           "404": { "description": "Governorate not found" }
         }
@@ -91,7 +72,7 @@
     "/districts": {
       "get": {
         "tags": ["Districts"],
-        "summary": "Get all districts (optional filter by governorate_id)",
+        "summary": "Get all districts (optional: filter by governorate_id)",
         "parameters": [
           {
             "in": "query",
@@ -107,15 +88,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "district_id": { "type": "integer", "example": 1 },
-                      "governorate_id": { "type": "integer", "example": 1 },
-                      "name_ar": { "type": "string", "example": "لواء قصبة عمان" },
-                      "name_en": { "type": "string", "example": "Amman District" }
-                    }
-                  }
+                  "items": { "$ref": "#/components/schemas/District" }
                 }
               }
             }
@@ -126,32 +99,20 @@
     "/districts/id/{id}": {
       "get": {
         "tags": ["Districts"],
-        "summary": "Get district by ID",
+        "summary": "Get a district by ID",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "schema": { "type": "integer" },
+            "schema": { "type": "integer", "example": 10 },
             "description": "District ID"
           }
         ],
         "responses": {
           "200": {
-            "description": "District object",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "district_id": { "type": "integer", "example": 1 },
-                    "governorate_id": { "type": "integer", "example": 1 },
-                    "name_ar": { "type": "string", "example": "لواء قصبة عمان" },
-                    "name_en": { "type": "string", "example": "Amman District" }
-                  }
-                }
-              }
-            }
+            "description": "District found",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/District" } } }
           },
           "404": { "description": "District not found" }
         }
@@ -160,91 +121,94 @@
     "/areas": {
       "get": {
         "tags": ["Areas"],
-        "summary": "Get all areas (filter by district_id and governorate_id)",
+        "summary": "Get all areas filtered by district_id and governorate_id",
         "parameters": [
           {
             "in": "query",
             "name": "district_id",
             "required": true,
-            "schema": { "type": "integer" },
+            "schema": { "type": "integer", "example": 10 },
             "description": "District ID"
           },
           {
             "in": "query",
             "name": "governorate_id",
             "required": true,
-            "schema": { "type": "integer" },
+            "schema": { "type": "integer", "example": 1 },
             "description": "Governorate ID"
           },
           {
             "in": "query",
             "name": "limit",
-            "schema": { "type": "integer" },
-            "description": "Number of results to return (default 100)"
+            "schema": { "type": "integer", "example": 100 },
+            "description": "Maximum number of results"
           },
           {
             "in": "query",
             "name": "offset",
-            "schema": { "type": "integer" },
-            "description": "Offset for pagination"
+            "schema": { "type": "integer", "example": 0 },
+            "description": "Number of items to skip"
           }
         ],
         "responses": {
           "200": {
             "description": "List of areas",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "area_id": { "type": "integer", "example": 1 },
-                      "district_id": { "type": "integer", "example": 1 },
-                      "governorate_id": { "type": "integer", "example": 1 },
-                      "name_ar": { "type": "string", "example": "الشميساني" },
-                      "name_en": { "type": "string", "example": "Shmeisani" }
-                    }
-                  }
-                }
-              }
-            }
-          }
+            "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Area" } } } }
+          },
+          "400": { "description": "district_id and governorate_id are required" }
         }
       }
     },
     "/areas/id/{id}": {
       "get": {
         "tags": ["Areas"],
-        "summary": "Get area by ID",
+        "summary": "Get an area by ID",
         "parameters": [
           {
             "in": "path",
             "name": "id",
             "required": true,
-            "schema": { "type": "integer" },
+            "schema": { "type": "integer", "example": 100 },
             "description": "Area ID"
           }
         ],
         "responses": {
           "200": {
-            "description": "Area object",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "area_id": { "type": "integer", "example": 1 },
-                    "district_id": { "type": "integer", "example": 1 },
-                    "governorate_id": { "type": "integer", "example": 1 },
-                    "name_ar": { "type": "string", "example": "الشميساني" },
-                    "name_en": { "type": "string", "example": "Shmeisani" }
-                  }
-                }
-              }
-            }
+            "description": "Area found",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Area" } } }
           },
           "404": { "description": "Area not found" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Governorate": {
+        "type": "object",
+        "properties": {
+          "governorate_id": { "type": "integer", "example": 1 },
+          "name_ar": { "type": "string", "example": "عمان" },
+          "name_en": { "type": "string", "example": "Amman" }
+        }
+      },
+      "District": {
+        "type": "object",
+        "properties": {
+          "district_id": { "type": "integer", "example": 10 },
+          "governorate_id": { "type": "integer", "example": 1 },
+          "name_ar": { "type": "string", "example": "لواء قصبة عمان" },
+          "name_en": { "type": "string", "example": "Amman District" }
+        }
+      },
+      "Area": {
+        "type": "object",
+        "properties": {
+          "area_id": { "type": "integer", "example": 100 },
+          "district_id": { "type": "integer", "example": 10 },
+          "governorate_id": { "type": "integer", "example": 1 },
+          "name_ar": { "type": "string", "example": "مدينة الحسين" },
+          "name_en": { "type": "string", "example": "Hussein City" }
         }
       }
     }
