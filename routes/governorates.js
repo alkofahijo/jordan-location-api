@@ -41,3 +41,71 @@ router.get('/id/:id', async (req, res, next) => {
 });
 
 module.exports = router;
+
+
+
+/**
+ * @swagger
+ * tags:
+ *   name: Governorates
+ *   description: Jordan governorates
+ */
+
+/**
+ * @swagger
+ * /governorates:
+ *   get:
+ *     summary: Get all governorates
+ *     tags: [Governorates]
+ *     responses:
+ *       200:
+ *         description: List of governorates
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   governorate_id:
+ *                     type: integer
+ *                     example: 1
+ *                   name_ar:
+ *                     type: string
+ *                     example: "عمان"
+ *                   name_en:
+ *                     type: string
+ *                     example: "Amman"
+ */
+
+/**
+ * @swagger
+ * /governorates/id/{id}:
+ *   get:
+ *     summary: Get a governorate by ID
+ *     tags: [Governorates]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Governorate ID
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *     responses:
+ *       200:
+ *         description: Governorate found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 governorate_id:
+ *                   type: integer
+ *                 name_ar:
+ *                   type: string
+ *                 name_en:
+ *                   type: string
+ *       404:
+ *         description: Governorate not found
+ */
