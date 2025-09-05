@@ -50,7 +50,7 @@ app.get('/', (req, res) => {
 });
 
 // --------------------
-// Test DB connection
+// Test DB connection (main)
 // --------------------
 app.get('/test-db', async (req, res) => {
   try {
@@ -58,7 +58,7 @@ app.get('/test-db', async (req, res) => {
     res.json({ now: result.rows[0].now });
   } catch (err) {
     console.error('DB connection error:', err.stack);
-    res.status(500).json({ error: 'Database connection failed' });
+    res.status(500).json({ error: 'Database connection failed', detail: err.message });
   }
 });
 
@@ -67,7 +67,7 @@ app.get('/test-db', async (req, res) => {
 // --------------------
 app.use((err, req, res, next) => {
   console.error('Global error:', err.stack);
-  res.status(500).json({ status: 'error', message: 'Internal server error' });
+  res.status(500).json({ status: 'error', message: 'Internal server error', detail: err.message });
 });
 
 // --------------------
@@ -75,3 +75,4 @@ app.use((err, req, res, next) => {
 // --------------------
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
