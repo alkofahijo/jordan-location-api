@@ -3,19 +3,15 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
-const dns = require('dns');
 require('dotenv').config();
 
-const pool = require('./db');
+const pool = require('./db'); // Transaction Pooler connection
 const governoratesRoutes = require('./routes/governorates');
 const districtsRoutes = require('./routes/districts');
 const areasRoutes = require('./routes/areas');
 const { swaggerUi, specs } = require('./swagger');
 
 const app = express();
-
-// Force IPv4 for Supabase (fix ENETUNREACH)
-dns.setDefaultResultOrder('ipv4first');
 
 // --------------------
 // Middleware
