@@ -6,7 +6,7 @@ const helmet = require('helmet');
 const dns = require('dns');
 require('dotenv').config();
 
-const pool = require('./db'); // import pool after forcing IPv4
+const pool = require('./db'); // Supabase pool
 const governoratesRoutes = require('./routes/governorates');
 const districtsRoutes = require('./routes/districts');
 const areasRoutes = require('./routes/areas');
@@ -16,8 +16,8 @@ const { swaggerUi, specs } = require('./swagger');
 const app = express();
 
 // --------------------
-// Force IPv4 for Supabase
-// Node 18+ only
+// Force IPv4 for Supabase (Node 18+)
+// --------------------
 dns.setDefaultResultOrder('ipv4first');
 
 // --------------------
@@ -57,20 +57,21 @@ app.get('/test-db', async (req, res) => {
     const result = await pool.query('SELECT NOW()');
     res.json({ now: result.rows[0].now });
   } catch (err) {
-    console.error('DB connection error:', err);
+    console.error('DB connection error:', err.stack);
     res.status(500).json({ error: 'Database connection failed' });
   }
 });
 
 // --------------------
-// Error handling middleware
+// Global Error Handler
 // --------------------
-app.use(errorHandler);
+app.use((err, req, res, next) => {
+  console.error('Global error:', err.stack);
+  res.status(500).json({ status: 'error', message: 'Internal server error' });
+});
 
 // --------------------
 // Start server
 // --------------------
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () =>
-  console.log(`Server running on port ${PORT}`)
-);
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
